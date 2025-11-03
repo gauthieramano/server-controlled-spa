@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import simulatedFetch from "../mock/simulatedFetch.ts";
-import { isResponseError } from "../utils/typeGuards.ts";
-import type { Intents, Step } from "../utils/types.ts";
+import useFetch from "../hooks/useFetch.ts";
 
 export default function ScreenRenderer() {
   // récupération de l'identifiant de l'écran à partir de l'URL
@@ -14,25 +11,7 @@ export default function ScreenRenderer() {
     throw new Error("`:screenId` missing in the path for `ScreenRenderer`");
   }
 
-  const [intents, setIntents] = useState<Intents>();
-  const [step, setStep] = useState<Step>("initial");
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    setStep("loading");
-
-    simulatedFetch(`/intent/${screenId}`).then((response) => {
-      setStep("fetched");
-
-      if (isResponseError(response)) {
-        setError(response.error);
-        return;
-      }
-
-      setError("");
-      setIntents(response.intents);
-    });
-  }, [screenId]);
+  const { intents, step, error } = useFetch(`/intent/${screenId}`);
 
   // Render nothing to avoid any flickering
   if (step === "initial") {
