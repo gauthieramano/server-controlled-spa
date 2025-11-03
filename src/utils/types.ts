@@ -12,19 +12,15 @@ type IntentAcceptCgu = { "accept-cgu": PropsLabel & VisibleIf };
 type IntentAddressForm = { "address-form": PropsDefault & VisibleIf };
 type IntentButton = { button: PropsLabel & VisibleIf };
 
-type Options = {
+export type Options = {
   key: string;
   visibleIf: Condition | undefined;
 };
 
-type NamePropsOptionsAcceptCgu = ["accept-cgu", PropsLabel, Options];
-type NamePropsOptionsAddressForm = ["address-form", PropsDefault, Options];
-type NamePropsOptionsButton = ["button", PropsLabel, Options];
-
-export type NamePropsOptions =
-  | NamePropsOptionsAcceptCgu
-  | NamePropsOptionsAddressForm
-  | NamePropsOptionsButton;
+export type NameProps =
+  | { name: "accept-cgu"; props: PropsLabel }
+  | { name: "address-form"; props: PropsDefault }
+  | { name: "button"; props: PropsLabel };
 
 export type Intents = Partial<
   IntentAcceptCgu & IntentAddressForm & IntentButton
