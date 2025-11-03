@@ -1,3 +1,4 @@
+import { Activity } from "react";
 import useVisibility from "../context/useVisibility";
 import { isConditionCguAccepted } from "../utils/typeGuards";
 import type { Condition } from "../utils/types";
@@ -16,5 +17,7 @@ export default function VisibilityWrapper({ visibleIf, children }: Props) {
     isVisible = visibleIf["accept-cgu"] ? isCguAccepted : !isCguAccepted;
   }
 
-  return isVisible ? children : null;
+  return (
+    <Activity mode={isVisible ? "visible" : "hidden"}>{children}</Activity>
+  );
 }
