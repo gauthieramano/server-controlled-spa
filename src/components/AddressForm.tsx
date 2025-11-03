@@ -1,8 +1,6 @@
-export default function AddressForm({
-  default: defaultValue,
-}: {
-  default: string;
-}) {
+import type { PropsDefault } from "../utils/types";
+
+export default function AddressForm({ default: defaultValue }: PropsDefault) {
   return (
     <form>
       <input
