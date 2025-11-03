@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchIntents } from "../mock/intents.ts";
+import simulatedFetch from "../mock/simulatedFetch.ts";
+import { isResponseError } from "../utils/typeGuards.ts";
 import type { Intents, Step } from "../utils/types.ts";
 
 export default function ScreenRenderer() {
@@ -15,13 +16,21 @@ export default function ScreenRenderer() {
 
   const [intents, setIntents] = useState<Intents>();
   const [step, setStep] = useState<Step>("initial");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setStep("loading");
 
-    fetchIntents(screenId).then((value) => {
+    simulatedFetch(`/intent/${screenId}`).then((response) => {
       setStep("fetched");
-      setIntents(value);
+
+      if (isResponseError(response)) {
+        setError(response.error);
+        return;
+      }
+
+      setError("");
+      setIntents(response.intents);
     });
   }, [screenId]);
 
@@ -34,14 +43,12 @@ export default function ScreenRenderer() {
     return "Loading…";
   }
 
-  if (!intents) {
-    return `Missing screen_id: no intents found for \`${screenId}\``;
+  if (error) {
+    return error;
   }
 
   // À RÉALISER :
   // Ici, vous devez :
-  // 1. Simuler un appel à /intent/:screen_id (les données sont fournies dans /src/mock/intents.ts).
-  // 2. En fonction du screen_id, sélectionner un des deux payloads (simple ou avec visible-if).
   // 3. Parcourir dynamiquement les intents reçus.
   // 4. Pour chaque intent, afficher le composant correspondant avec ses props.
 
