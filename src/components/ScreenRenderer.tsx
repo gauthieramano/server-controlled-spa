@@ -1,4 +1,5 @@
 import { useParams } from "react-router";
+import Providers from "../context/providers.tsx";
 import useFetch from "../hooks/useFetch.ts";
 import type { NamePropsKey } from "../utils/types.ts";
 import AcceptCGU from "./AcceptCGU.tsx";
@@ -56,17 +57,19 @@ export default function ScreenRenderer() {
       <p className="mb-2 font-bold text-xl">Écran dynamique : {screenId}</p>
 
       <div className="flex min-w-md flex-col gap-4">
-        {namePropsKeys.map(([name, props, key]) => (
-          <div key={key}>
-            {name === "accept-cgu" ? (
-              <AcceptCGU {...props} />
-            ) : name === "address-form" ? (
-              <AddressForm {...props} />
-            ) : (
-              <Button {...props} />
-            )}
-          </div>
-        ))}
+        <Providers>
+          {namePropsKeys.map(([name, props, key]) => (
+            <div key={key}>
+              {name === "accept-cgu" ? (
+                <AcceptCGU {...props} />
+              ) : name === "address-form" ? (
+                <AddressForm {...props} />
+              ) : (
+                <Button {...props} />
+              )}
+            </div>
+          ))}
+        </Providers>
       </div>
     </div>
   );
