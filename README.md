@@ -105,7 +105,7 @@ Ces conditions supplémentaires ne sont pas à implémenter. Elles sont données
 
 https://free.proj9ct.com
 
-### Vidéo pour présenter rapidement le projet :
+### Vidéo pour présenter rapidement le projet _(avant l'ajout des bonus)_ :
 
 https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 
@@ -113,7 +113,14 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 
 - <u>L'ensemble des fonctionnalités</u>, y compris la fonctionnalité optionnelle, a été développé
 - <u>Une gestion des erreurs</u> a été implémentée aussi bien dans le mock serveur que la partie frontend
+
+En bonus _(Cf. les commits dont le message commence par cet emoji 🎁)_ :
+
 - La homepage de **Vite** a été remplacée par <u>une page pour accéder directement à 3 routes</u> _(2 bonnes et 1 mauvaise)_ afin d'éviter d'entrer des URLs à la main.
+- <u>6 tests unitaires</u> avec **Vitest** ont été ajoutés, dont certains avec un mock de la "base de données" pour respecter les bonnes pratiques
+- du code a été <u>refactorisé pour améliorer l'implémentation</u>, utilisation de :
+  - `<Activity>` de **React** 19.2 pour conserver le state interne des `children`en cas de masquage
+  - [TS-Pattern](https://github.com/gvergnaud/ts-pattern) pour utiliser du pattern matching et ainsi éviter des ternaires imbriquées et/ou des mutations
 
 ## Contribution
 
@@ -168,17 +175,7 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
   - indentation peu profonde
   - complexité raisonnable _(ni trop basse ni trop grande)_
   - early returns
-  - utilisation d'aucun `let`, sauf dans `VisibilityWrapper` pour que l'implémentation reste simple à comprendre. Si le projet mettait à disposition [ts-pattern](https://github.com/gvergnaud/ts-pattern), un pattern matching aurait pu être implémenté, permettant ainsi d'avoir à la fois un `const` _(donc aucune mutation)_ et un code lisible, car avoir ceci n'est pas idéal :
-
-    ```ts
-    const isVisible =
-      visibleIf && isConditionCguAccepted(visibleIf)
-        ? visibleIf["accept-cgu"]
-          ? isCguAccepted
-          : !isCguAccepted
-        : true;
-    ```
-
+  - utilisation d'aucun `let`
   - throw early pour des cas qui ne sont pas censés arriver mais que TypeScript et le bundler ne peuvent pas catcher, afin de ne pas avoir d'erreurs silencieuses.
 
 ## Implémentation
@@ -186,8 +183,6 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 - le fichier `intents.ts` a finalement été <u>considéré comme une base de données</u> _(c'est-à-dire un ESModule avec juste des données)_, donc la fonction `fetchIntents` a été supprimée en fusionnant avec le code de la fonction `simulatedFetch` créée via un ESModule dédié. Au passage, une fonction `wait` a été extraite dans `helpers.ts` _(en utilisant des constantes pour éviter les magic numbers pour les durées)_ pour améliorer la lisibilité de `simulatedFetch`, au même titre que l'utilisation de `async/await` _(au lieu de la syntaxe classique des promesses)_.
 
 - la fonction `simulatedFetch` <u>prend en compte 2 erreurs différentes</u> _(le cas d'une route qui ne correspond pas au pattern et le cas où la "base de données" n'a pas de `screen_id` correspondant à la route)_, d'autres cas d'erreurs auraient pu être implémentés _(comme par exemple le mock d'une erreur réseau via un throw qui s'exécuterait 10% du temps via une fonction aléatoire juste après le `await wait()`)_. Ceci dit, l'idée était d'<u>implémenter une réponse avec 2 types d'objets différents</u> _(Cf. les types `ResponseValid` et `ResponseError`)_ pour ne pas retourner seulement l'objet des intents, sans pour autant aller jusqu'à générer une réponse HTTP plus complète avec status code et autre.
-
-- <u>la visibilité des composants</u> _(via la fonctionnalité bonus à développer)_ a été <u>gérée avec des mounts/unmounts de composant</u>, ce qui fait que l'état du composant est réinitialisé à chaque fois qu'on accepte les CGU. L'ajout d'un DIV avec jeu au niveau du style _(Cf. `display: none`)_ aurait pu être fait, mais le but était de faire simple. Si le projet comprenait la version 19.2 _(et non 19.1)_, l'utilisation du composant `<Activity>` aurait fait sens.
 
 - <u>des commentaires</u> ont été mis :
 
@@ -258,3 +253,7 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
     ],
   ],
   ```
+
+## Historique Git
+
+![Git History](/docs/git-history.gif "Git History")
