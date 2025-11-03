@@ -1,4 +1,5 @@
-import { fetchIntents } from "./intents";
+import { wait } from "./helpers";
+import { screenIdToIntentsMap } from "./intents";
 
 type Groups = { screenId: string };
 type Result = RegExpExecArray & { groups: Groups };
@@ -25,16 +26,20 @@ const isResult = (result: RegExpExecArray | null): result is Result => !!result;
  ******************************************************** */
 
 const simulatedFetch = async (apiRoute: string) => {
+  // Simulate a response delay
+  await wait();
+
   // Search the screen_id in the API route for intents
   const result = REGEX.exec(apiRoute);
 
   if (!isResult(result)) {
-    return Promise.resolve({ error: BAD_ROUTE });
+    return { error: BAD_ROUTE };
   }
 
   const { screenId } = result.groups;
 
-  const intents = await fetchIntents(screenId);
+  // Query the "database"
+  const intents = screenIdToIntentsMap[screenId];
 
   return intents
     ? { intents }
