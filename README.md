@@ -34,11 +34,11 @@ Dans ce test, l’API n’existe pas encore. Elle est simulée via la fonction `
 
 ## Intents actuellement supportés
 
-| Nom de l’intent | Composant associé     |
-|------------------|------------------------|
-| `address-form`   | `<AddressForm />`      |
-| `accept-cgu`     | `<AcceptCGU />`        |
-| `button`         | `<Button />`           |
+| Nom de l’intent | Composant associé |
+| --------------- | ----------------- |
+| `address-form`  | `<AddressForm />` |
+| `accept-cgu`    | `<AcceptCGU />`   |
+| `button`        | `<Button />`      |
 
 Les composants sont déjà codés et importables depuis `src/components/`. Nous prévoyons de supporter à terme entre 80 et 100 intents.
 
@@ -79,14 +79,17 @@ Ces conditions supplémentaires ne sont pas à implémenter. Elles sont données
 ## Correction
 
 ### Éliminatoire
+
 - Le rendu des composants de base ne fonctionne pas
 - Les règles fondamentales de React ne sont pas respectées
 
 ### Acceptable
+
 - Le rendu dynamique fonctionne même si tout est dans `ScreenRenderer.tsx`
 - La partie `visible-if` n’est pas gérée
 
 ### Valorisé
+
 - Le rendu conditionnel fonctionne (`visible-if`)
 - Code clair, logique, bien découpé
 
