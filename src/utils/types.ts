@@ -5,3 +5,5 @@ export type Intents = {
 export type ScreenIdToIntentsMap = {
   [screenId: string]: Intents | undefined;
 };
+
+export type Step = "initial" | "loading" | "fetched";

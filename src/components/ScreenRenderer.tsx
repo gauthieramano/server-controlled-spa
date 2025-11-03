@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import AcceptCGU from "./AcceptCGU.tsx";
-import AddressForm from "./AddressForm.tsx";
-import Button from "./Button.tsx";
+import { fetchIntents } from "../mock/intents.ts";
+import type { Intents, Step } from "../utils/types.ts";
 
 export default function ScreenRenderer() {
   // récupération de l'identifiant de l'écran à partir de l'URL
@@ -11,6 +11,31 @@ export default function ScreenRenderer() {
   // Additional benefit: to avoid non-null assertions
   if (!screenId) {
     throw new Error("`:screenId` missing in the path for `ScreenRenderer`");
+  }
+
+  const [intents, setIntents] = useState<Intents>();
+  const [step, setStep] = useState<Step>("initial");
+
+  useEffect(() => {
+    setStep("loading");
+
+    fetchIntents(screenId).then((value) => {
+      setStep("fetched");
+      setIntents(value);
+    });
+  }, [screenId]);
+
+  // Render nothing to avoid any flickering
+  if (step === "initial") {
+    return null;
+  }
+
+  if (step === "loading") {
+    return "Loading…";
+  }
+
+  if (!intents) {
+    return `Missing screen_id: no intents found for \`${screenId}\``;
   }
 
   // À RÉALISER :
@@ -24,28 +49,9 @@ export default function ScreenRenderer() {
 
   return (
     <div className="p-4">
-      {/* Exemple pour montrer les composants disponibles */}
-      {/* Vous pouvez supprimer les lignes ci-après pour laisser place à votre implémentation */}
-      {/* Vous pouvez également modifier les composants fournis pour qu'ils répondent à vos besoins */}
-      <div>
-        <p className="mb-2 font-bold text-xl">Écran dynamique : {screenId}</p>
+      <p className="mb-2 font-bold text-xl">Écran dynamique : {screenId}</p>
 
-        <p>Showroom</p>
-        <AddressForm default="zzz" />
-        <AcceptCGU label="oui je suis ok" />
-        <Button label="un bouton" />
-      </div>
-
-      {/* Rendu dynamique des composants à insérer ici */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
+      <pre className="text-left">{JSON.stringify(intents, null, 2)}</pre>
     </div>
   );
 }
