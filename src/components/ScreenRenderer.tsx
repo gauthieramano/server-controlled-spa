@@ -6,6 +6,13 @@ import Button from "./Button.tsx";
 export default function ScreenRenderer() {
   // récupération de l'identifiant de l'écran à partir de l'URL
   const { screenId } = useParams();
+
+  // Throw early to make sure to track bad router config (useful for monitoring)
+  // Additional benefit: to avoid non-null assertions
+  if (!screenId) {
+    throw new Error("`:screenId` missing in the path for `ScreenRenderer`");
+  }
+
   // À RÉALISER :
   // Ici, vous devez :
   // 1. Simuler un appel à /intent/:screen_id (les données sont fournies dans /src/mock/intents.ts).
