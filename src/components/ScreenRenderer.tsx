@@ -5,6 +5,7 @@ import type { NamePropsOptions } from "../utils/types.ts";
 import AcceptCGU from "./AcceptCGU.tsx";
 import AddressForm from "./AddressForm.tsx";
 import Button from "./Button.tsx";
+import VisibilityWrapper from "./VisibilityWrapper.tsx";
 
 export default function ScreenRenderer() {
   // récupération de l'identifiant de l'écran à partir de l'URL
@@ -42,19 +43,14 @@ export default function ScreenRenderer() {
 
   const namePropsOptions = Object.entries(intents).map(
     ([name, intent], index) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { "visible-if": _, ...props } = intent;
+      const { "visible-if": visibleIf, ...props } = intent;
 
       // As the intents order is fixed, `index` can be safely used for keys
-      const options = { key: `${screenId}_${index}` };
+      const options = { key: `${screenId}_${index}`, visibleIf };
 
       return [name, props, options] as NamePropsOptions;
     },
   );
-
-  // À RÉALISER :
-  // Ici, vous devez :
-  // 5. Bonus : Gérer les conditions d'affichage si l'intent possède un champ "visible-if".
 
   return (
     <div className="p-4">
@@ -62,8 +58,8 @@ export default function ScreenRenderer() {
 
       <div className="flex min-w-md flex-col gap-4">
         <Providers>
-          {namePropsOptions.map(([name, props, { key }]) => (
-            <div key={key}>
+          {namePropsOptions.map(([name, props, { key, visibleIf }]) => (
+            <VisibilityWrapper key={key} visibleIf={visibleIf}>
               {name === "accept-cgu" ? (
                 <AcceptCGU {...props} />
               ) : name === "address-form" ? (
@@ -71,7 +67,7 @@ export default function ScreenRenderer() {
               ) : (
                 <Button {...props} />
               )}
-            </div>
+            </VisibilityWrapper>
           ))}
         </Providers>
       </div>

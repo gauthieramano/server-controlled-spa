@@ -1,8 +1,8 @@
-import { useState } from "react";
+import useVisibility from "../context/useVisibility";
 import type { PropsLabel } from "../utils/types";
 
 export default function AcceptCGU({ label }: PropsLabel) {
-  const [isCguAccepted, setIsCguAccepted] = useState(false);
+  const { isCguAccepted, setIsCguAccepted } = useVisibility();
 
   return (
     <label className="flex items-center gap-2">

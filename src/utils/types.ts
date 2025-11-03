@@ -14,6 +14,7 @@ type IntentButton = { button: PropsLabel & VisibleIf };
 
 type Options = {
   key: string;
+  visibleIf: Condition | undefined;
 };
 
 type NamePropsOptionsAcceptCgu = ["accept-cgu", PropsLabel, Options];
