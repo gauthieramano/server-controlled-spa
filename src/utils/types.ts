@@ -1,7 +1,12 @@
 export type PropsLabel = { label: string };
 export type PropsDefault = { default: string };
 
-type VisibleIf = { "visible-if"?: Record<string, string | boolean> };
+export type ConditionCguAccepted = { "accept-cgu": boolean };
+
+/** Union Type, the application is supposed to support other conditions */
+export type Condition = ConditionCguAccepted;
+
+type VisibleIf = { "visible-if"?: Condition };
 
 type IntentAcceptCgu = { "accept-cgu": PropsLabel & VisibleIf };
 type IntentAddressForm = { "address-form": PropsDefault & VisibleIf };
