@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import Providers from "../context/providers.tsx";
 import useFetch from "../hooks/useFetch.ts";
-import type { NamePropsKey } from "../utils/types.ts";
+import type { NamePropsOptions } from "../utils/types.ts";
 import AcceptCGU from "./AcceptCGU.tsx";
 import AddressForm from "./AddressForm.tsx";
 import Button from "./Button.tsx";
@@ -40,13 +40,17 @@ export default function ScreenRenderer() {
    *     step: "fetched"     |    tuple & main render     *
    ****************************************************** */
 
-  const namePropsKeys = Object.entries(intents).map(([name, intent], index) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { "visible-if": _, ...props } = intent;
+  const namePropsOptions = Object.entries(intents).map(
+    ([name, intent], index) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { "visible-if": _, ...props } = intent;
 
-    // As the intents order is fixed, `index` can be safely used for keys
-    return [name, props, `${screenId}_${index}`] as NamePropsKey;
-  });
+      // As the intents order is fixed, `index` can be safely used for keys
+      const options = { key: `${screenId}_${index}` };
+
+      return [name, props, options] as NamePropsOptions;
+    },
+  );
 
   // À RÉALISER :
   // Ici, vous devez :
@@ -58,7 +62,7 @@ export default function ScreenRenderer() {
 
       <div className="flex min-w-md flex-col gap-4">
         <Providers>
-          {namePropsKeys.map(([name, props, key]) => (
+          {namePropsOptions.map(([name, props, { key }]) => (
             <div key={key}>
               {name === "accept-cgu" ? (
                 <AcceptCGU {...props} />
