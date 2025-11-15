@@ -1,21 +1,9 @@
+import { SCREEN_ID_REGEX } from "../utils/constants";
 import { wait } from "./helpers";
 import { screenIdToIntentsMap } from "./intents";
 
 type Groups = { screenId: string };
 type Result = RegExpExecArray & { groups: Groups };
-
-/**
- * WHEN:
- * ```ts
- * const result = REGEX.exec("/intent/kebab-case-screen-id")
- * ```
- *
- * THEN:
- * ```ts
- * result.groups.screenId // "kebab-case-screen-id"
- * ```
- */
-const REGEX = /^\/intent\/(?<screenId>([a-z][a-z0-9-]*[a-z0-9])|[a-z])$/;
 
 const BAD_ROUTE = "Bad route: the URL pattern should be `/intent/screen-id`";
 
@@ -30,7 +18,7 @@ const simulatedFetch = async (apiRoute: string) => {
   await wait();
 
   // Search the screen_id in the API route for intents
-  const result = REGEX.exec(apiRoute);
+  const result = SCREEN_ID_REGEX.exec(apiRoute);
 
   if (!isResult(result)) {
     return { error: BAD_ROUTE };

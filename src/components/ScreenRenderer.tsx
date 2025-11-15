@@ -1,10 +1,8 @@
 import { useParams } from "react-router";
 import Providers from "../context/providers.tsx";
 import useFetch from "../hooks/useFetch.ts";
-import type { NamePropsOptions } from "../utils/types.ts";
-import AcceptCGU from "./AcceptCGU.tsx";
-import AddressForm from "./AddressForm.tsx";
-import Button from "./Button.tsx";
+import type { NameProps, Options } from "../utils/types.ts";
+import IntentComponent from "./IntentComponent.tsx";
 import VisibilityWrapper from "./VisibilityWrapper.tsx";
 
 export default function ScreenRenderer() {
@@ -48,7 +46,7 @@ export default function ScreenRenderer() {
       // As the intents order is fixed, `index` can be safely used for keys
       const options = { key: `${screenId}_${index}`, visibleIf };
 
-      return [name, props, options] as NamePropsOptions;
+      return [{ name, props }, options] as [NameProps, Options];
     },
   );
 
@@ -58,15 +56,9 @@ export default function ScreenRenderer() {
 
       <div className="flex min-w-md flex-col gap-4">
         <Providers>
-          {namePropsOptions.map(([name, props, { key, visibleIf }]) => (
+          {namePropsOptions.map(([nameProps, { key, visibleIf }]) => (
             <VisibilityWrapper key={key} visibleIf={visibleIf}>
-              {name === "accept-cgu" ? (
-                <AcceptCGU {...props} />
-              ) : name === "address-form" ? (
-                <AddressForm {...props} />
-              ) : (
-                <Button {...props} />
-              )}
+              <IntentComponent nameProps={nameProps} />
             </VisibilityWrapper>
           ))}
         </Providers>
