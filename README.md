@@ -88,31 +88,31 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 
 ## Fonctionnalités
 
-- <u>L'ensemble des fonctionnalités</u>, y compris la fonctionnalité optionnelle, a été développé
-- <u>Une gestion des erreurs</u> a été implémentée aussi bien dans le mock serveur que la partie frontend
+- <ins>L'ensemble des fonctionnalités</ins>, y compris la fonctionnalité optionnelle, a été développé
+- <ins>Une gestion des erreurs</ins> a été implémentée aussi bien dans le mock serveur que la partie frontend
 
 En bonus _(Cf. les commits liés à la v2)_ :
 
-- La homepage de **Vite** a été remplacée par <u>une page pour accéder directement à 3 routes</u> _(2 bonnes et 1 mauvaise)_ afin d'éviter d'entrer des URLs à la main.
-- <u>6 tests unitaires</u> avec **Vitest** ont été ajoutés, dont certains avec un mock de la "base de données" pour respecter les bonnes pratiques
-- du code a été <u>refactorisé pour améliorer l'implémentation</u>, utilisation de :
+- La homepage de **Vite** a été remplacée par <ins>une page pour accéder directement à 3 routes</ins> _(2 bonnes et 1 mauvaise)_ afin d'éviter d'entrer des URLs à la main.
+- <ins>6 tests unitaires</ins> avec **Vitest** ont été ajoutés, dont certains avec un mock de la "base de données" pour respecter les bonnes pratiques
+- du code a été <ins>refactorisé pour améliorer l'implémentation</ins>, utilisation de :
   - `<Activity>` de **React** 19.2 pour conserver le state interne des `children`en cas de masquage
   - [TS-Pattern](https://github.com/gvergnaud/ts-pattern) pour utiliser du pattern matching et ainsi éviter des ternaires imbriquées et/ou des mutations
 
 ## Contribution
 
-- <u>Le projet contient un historique **Git** propre</u> _(idéal pour suivre chaque étape du développement)_, et se base sur les bonnes pratiques de ces projets :
+- <ins>Le projet contient un historique **Git** propre</ins> _(idéal pour suivre chaque étape du développement)_, et se base sur les bonnes pratiques de ces projets :
 
   - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   - [commit-message-emoji](https://github.com/dannyfritz/commit-message-emoji?tab=readme-ov-file#which-emoji-to-use-) par défaut, et [Gitmoji](https://gitmoji.dev/) en complément
 
-- Comme le projet ne comportait pas de <u>formateur</u>, [Biome](https://biomejs.dev) a été ajouté :
+- Comme le projet ne comportait pas de <ins>formateur</ins>, [Biome](https://biomejs.dev) a été ajouté :
 
   - c'est le nouveau standard pour linter et formater des projets en **TypeScript** _(c'est nettement plus performant que le duo **Prettier** x **ESLint**)_.
   - la configuration **Biome** ajoutée au projet permet, au passage, de bénéficier de règles de lint supplémentaires _(à la configuration **ESLint**)_.
   - l'ensemble des fichiers du projet a été formaté automatiquement _(dans un commit dédié)_, à la fois pour uniformiser la codebase et éviter des diffs de formatage dans des commits d'ajout de fonctionnalité.
 
-- Comme rien ne faisait mention de la possibilité de changer <u>la configuration initiale du projet, rien n'a été modifié à ce niveau, volontairement</u> :
+- Comme rien ne faisait mention de la possibilité de changer <ins>la configuration initiale du projet, rien n'a été modifié à ce niveau, volontairement</ins> :
 
   - les fichiers `package.json`, `yarn.lock`, `tsconfig.json`, `tsconfig.app.json`, `vite.config.ts`, `eslint.config.js` sont donc identiques aux fichiers initiaux.
   - **ESLint** fonctionne donc en parallèle de **Biome** _(via les extensions d'IDE respectives)_. Ceci dit, l'idéal aurait été de supprimer tout ce qui est relatif à **ESLint** pour des soucis de performance, d'autant qu'il n'y a aucune valeur ajoutée à utiliser **ESLint** dans ce cas de figure.
@@ -131,7 +131,7 @@ En bonus _(Cf. les commits liés à la v2)_ :
 
 ## Conventions
 
-- <u>Les conventions de nommage</u> ont été respectées concernant tout code ajouté. Par contre, aucun code présent dans les fichiers initiaux n'a été modifié, volontairement _(pour rester neutre)_, sauf en cas de nécessité :
+- <ins>Les conventions de nommage</ins> ont été respectées concernant tout code ajouté. Par contre, aucun code présent dans les fichiers initiaux n'a été modifié, volontairement _(pour rester neutre)_, sauf en cas de nécessité :
 
   - la règle `useNamingConvention` de **Biome** ayant été activée _(en warning)_ et `AcceptCGU` ne respectant pas les conventions — Cf. l'erreur :
 
@@ -141,12 +141,12 @@ En bonus _(Cf. les commits liés à la v2)_ :
 
     _REMARQUE : `isCguAccepted` était initialement nommée `checked`. Avec un verbe modal au début pour rappeler le type booléen et un nom plus proche du "domaine", le code devient plus conventionnel._
 
-- <u>les bonnes pratiques de typage</u> ont été appliquées :
+- <ins>les bonnes pratiques de typage</ins> ont été appliquées :
 
   - Aucun `any`, aucun non-null assertion et aucun casting abusif n'a été ajouté.
   - L'exploitation optimale de l'inférence et du narrowing, l'utilisation de type guards et la définition de types stricts ont été privilégiés.
 
-- <u>les bonnes pratiques en JavaScript</u> ont également été appliquées :
+- <ins>les bonnes pratiques en JavaScript</ins> ont également été appliquées :
 
   - lisibilité
   - indentation peu profonde
@@ -157,17 +157,17 @@ En bonus _(Cf. les commits liés à la v2)_ :
 
 ## Implémentation
 
-- le fichier `intents.ts` a finalement été <u>considéré comme une base de données</u> _(c'est-à-dire un ESModule avec juste des données)_, donc la fonction `fetchIntents` a été supprimée en fusionnant avec le code de la fonction `simulatedFetch` créée via un ESModule dédié. Au passage, une fonction `wait` a été extraite dans `helpers.ts` _(en utilisant des constantes pour éviter les magic numbers pour les durées)_ pour améliorer la lisibilité de `simulatedFetch`, au même titre que l'utilisation de `async/await` _(au lieu de la syntaxe classique des promesses)_.
+- le fichier `intents.ts` a finalement été <ins>considéré comme une base de données</ins> _(c'est-à-dire un ESModule avec juste des données)_, donc la fonction `fetchIntents` a été supprimée en fusionnant avec le code de la fonction `simulatedFetch` créée via un ESModule dédié. Au passage, une fonction `wait` a été extraite dans `helpers.ts` _(en utilisant des constantes pour éviter les magic numbers pour les durées)_ pour améliorer la lisibilité de `simulatedFetch`, au même titre que l'utilisation de `async/await` _(au lieu de la syntaxe classique des promesses)_.
 
-- la fonction `simulatedFetch` <u>prend en compte 2 erreurs différentes</u> _(le cas d'une route qui ne correspond pas au pattern et le cas où la "base de données" n'a pas de `screen_id` correspondant à la route)_, d'autres cas d'erreurs auraient pu être implémentés _(comme par exemple le mock d'une erreur réseau via un throw qui s'exécuterait 10% du temps via une fonction aléatoire juste après le `await wait()`)_. Ceci dit, l'idée était d'<u>implémenter une réponse avec 2 types d'objets différents</u> _(Cf. les types `ResponseValid` et `ResponseError`)_ pour ne pas retourner seulement l'objet des intents, sans pour autant aller jusqu'à générer une réponse HTTP plus complète avec status code et autre.
+- la fonction `simulatedFetch` <ins>prend en compte 2 erreurs différentes</ins> _(le cas d'une route qui ne correspond pas au pattern et le cas où la "base de données" n'a pas de `screen_id` correspondant à la route)_, d'autres cas d'erreurs auraient pu être implémentés _(comme par exemple le mock d'une erreur réseau via un throw qui s'exécuterait 10% du temps via une fonction aléatoire juste après le `await wait()`)_. Ceci dit, l'idée était d'<ins>implémenter une réponse avec 2 types d'objets différents</ins> _(Cf. les types `ResponseValid` et `ResponseError`)_ pour ne pas retourner seulement l'objet des intents, sans pour autant aller jusqu'à générer une réponse HTTP plus complète avec status code et autre.
 
-- <u>des commentaires</u> ont été mis :
+- <ins>des commentaires</ins> ont été mis :
 
   - pour expliquer les choix d'implémentation _(avec `//`)_
   - pour documenter des constantes ou type particuliers _(Cf. des JSDoc avec `/** */`)_
   - pour aérer et "chapitrer" le code _(Cf. les gros blocs avec `/* ******* */`)_
 
-- au lieu de <u>cette structure de données</u> :
+- au lieu de <ins>cette structure de données</ins> :
 
   ```js
   "page-b": {
