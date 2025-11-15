@@ -1,44 +1,76 @@
 import { useParams } from "react-router";
+import Providers from "../context/providers.tsx";
+import useFetch from "../hooks/useFetch.ts";
+import type { NamePropsOptions } from "../utils/types.ts";
 import AcceptCGU from "./AcceptCGU.tsx";
 import AddressForm from "./AddressForm.tsx";
 import Button from "./Button.tsx";
+import VisibilityWrapper from "./VisibilityWrapper.tsx";
 
 export default function ScreenRenderer() {
   // récupération de l'identifiant de l'écran à partir de l'URL
   const { screenId } = useParams();
-  // À RÉALISER :
-  // Ici, vous devez :
-  // 1. Simuler un appel à /intent/:screen_id (les données sont fournies dans /src/mock/intents.ts).
-  // 2. En fonction du screen_id, sélectionner un des deux payloads (simple ou avec visible-if).
-  // 3. Parcourir dynamiquement les intents reçus.
-  // 4. Pour chaque intent, afficher le composant correspondant avec ses props.
 
-  // 5. Bonus : Gérer les conditions d'affichage si l'intent possède un champ "visible-if".
+  // Throw early to make sure to track bad router config (useful for monitoring)
+  // Additional benefit: to avoid non-null assertions
+  if (!screenId) {
+    throw new Error("`:screenId` missing in the path for `ScreenRenderer`");
+  }
+
+  const { intents, step, error } = useFetch(`/intent/${screenId}`);
+
+  // Render nothing to avoid any flickering
+  if (step === "initial") {
+    return null;
+  }
+
+  if (step === "loading") {
+    return "Loading…";
+  }
+
+  if (error) {
+    return error;
+  }
+
+  // Throw to make sure to track bad response (useful for monitoring & typing)
+  if (!intents) {
+    throw new Error(`Empty screen: no intents found for \`${screenId}\``);
+  }
+
+  /* ******************************************************
+   *     step: "fetched"     |    tuple & main render     *
+   ****************************************************** */
+
+  const namePropsOptions = Object.entries(intents).map(
+    ([name, intent], index) => {
+      const { "visible-if": visibleIf, ...props } = intent;
+
+      // As the intents order is fixed, `index` can be safely used for keys
+      const options = { key: `${screenId}_${index}`, visibleIf };
+
+      return [name, props, options] as NamePropsOptions;
+    },
+  );
 
   return (
     <div className="p-4">
-      {/* Exemple pour montrer les composants disponibles */}
-      {/* Vous pouvez supprimer les lignes ci-après pour laisser place à votre implémentation */}
-      {/* Vous pouvez également modifier les composants fournis pour qu'ils répondent à vos besoins */}
-      <div>
-        <p className="mb-2 font-bold text-xl">Écran dynamique : {screenId}</p>
+      <p className="mb-2 font-bold text-xl">Écran dynamique : {screenId}</p>
 
-        <p>Showroom</p>
-        <AddressForm default="zzz" />
-        <AcceptCGU label="oui je suis ok" />
-        <Button label="un bouton" />
+      <div className="flex min-w-md flex-col gap-4">
+        <Providers>
+          {namePropsOptions.map(([name, props, { key, visibleIf }]) => (
+            <VisibilityWrapper key={key} visibleIf={visibleIf}>
+              {name === "accept-cgu" ? (
+                <AcceptCGU {...props} />
+              ) : name === "address-form" ? (
+                <AddressForm {...props} />
+              ) : (
+                <Button {...props} />
+              )}
+            </VisibilityWrapper>
+          ))}
+        </Providers>
       </div>
-
-      {/* Rendu dynamique des composants à insérer ici */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
-      {/* */}
     </div>
   );
 }
