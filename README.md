@@ -1,4 +1,4 @@
-# Test technique — SPA dynamique pilotée par le serveur
+# SPA dynamique pilotée par le serveur
 
 ## Lancer le projet
 
@@ -9,7 +9,7 @@ yarn install
 yarn run dev
 ```
 
-Accédez ensuite à `http://localhost:5173/screen/page-a` ou `/screen/page-b` pour tester.
+Accédez ensuite à http://localhost:5173 pour tester.
 
 ---
 
@@ -76,36 +76,13 @@ Ces conditions supplémentaires ne sont pas à implémenter. Elles sont données
 
 ---
 
-## Correction
-
-### Éliminatoire
-
-- Le rendu des composants de base ne fonctionne pas
-- Les règles fondamentales de React ne sont pas respectées
-
-### Acceptable
-
-- Le rendu dynamique fonctionne même si tout est dans `ScreenRenderer.tsx`
-- La partie `visible-if` n’est pas gérée
-
-### Valorisé
-
-- Le rendu conditionnel fonctionne (`visible-if`)
-- Code clair, logique, bien découpé
-
----
-
-## Temps estimé
-
-30 à 45 minutes
-
-# Notes de Gauthier
+# Notes
 
 ### L'application est déployée ici :
 
 https://free.proj9ct.com
 
-### Vidéo pour présenter rapidement le projet _(avant l'ajout des bonus)_ :
+### Vidéo pour présenter rapidement la v1 du projet _(avant l'ajout des bonus)_ :
 
 https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 
@@ -114,7 +91,7 @@ https://www.loom.com/share/39a972c1046f4c35b85c476c23279235
 - <u>L'ensemble des fonctionnalités</u>, y compris la fonctionnalité optionnelle, a été développé
 - <u>Une gestion des erreurs</u> a été implémentée aussi bien dans le mock serveur que la partie frontend
 
-En bonus _(Cf. les commits dont le message commence par cet emoji 🎁)_ :
+En bonus _(Cf. les commits liés à la v2)_ :
 
 - La homepage de **Vite** a été remplacée par <u>une page pour accéder directement à 3 routes</u> _(2 bonnes et 1 mauvaise)_ afin d'éviter d'entrer des URLs à la main.
 - <u>6 tests unitaires</u> avec **Vitest** ont été ajoutés, dont certains avec un mock de la "base de données" pour respecter les bonnes pratiques
@@ -254,6 +231,6 @@ En bonus _(Cf. les commits dont le message commence par cet emoji 🎁)_ :
   ],
   ```
 
-## Historique Git
+## Historique Git jusqu'à la v2
 
 ![Git History](/docs/git-history.gif "Git History")
